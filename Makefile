@@ -1,5 +1,5 @@
 PLUGIN_ID ?= com.mattermost.login-help-mailer
-VERSION ?= 0.1.0
+VERSION ?= 0.1.1
 GO ?= go
 
 DIST_DIR := dist
@@ -20,7 +20,7 @@ bundle: clean build
 	mkdir -p $(PLUGIN_DIR)/assets
 	cp plugin.json $(PLUGIN_DIR)/
 	cp assets/icon.svg $(PLUGIN_DIR)/assets/icon.svg
-	tar -czf $(DIST_DIR)/$(PLUGIN_ID)-$(VERSION).tar.gz -C $(DIST_DIR) $(PLUGIN_ID)
+	$(GO) run ./build/package_plugin.go --source $(PLUGIN_DIR) --output $(DIST_DIR)/$(PLUGIN_ID)-$(VERSION).tar.gz
 
 clean:
 	rm -rf $(DIST_DIR)

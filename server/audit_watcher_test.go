@@ -1,6 +1,8 @@
 package main
 
 import (
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -62,5 +64,39 @@ func TestCanSendAgain(t *testing.T) {
 
 	if !canSendAgain(now-7200, now, 3600) {
 		t.Fatal("expected expired cooldown to allow send")
+	}
+}
+
+func TestConfigurationValidateRejectsRelativeAuditPath(t *testing.T) {
+	cfg := &configuration{
+		Enabled:             true,
+		AuditLogPath:        "logs/audit.log",
+		ConfluenceURL:       "https://confluence.example.internal/display/IT/Reset",
+		FailureThreshold:    3,
+		WindowMinutes:       15,
+		CooldownMinutes:     60,
+		PollIntervalSeconds: 5,
+	}
+
+	err := cfg.validate()
+	if err == nil || !strings.Contains(err.Error(), "absolute path") {
+		t.Fatalf("expected absolute path validation error, got %v", err)
+	}
+}
+
+func TestConfigurationValidateRejectsInvalidConfluenceURL(t *testing.T) {
+	cfg := &configuration{
+		Enabled:             true,
+		AuditLogPath:        filepath.Join(t.TempDir(), "mattermost_audit.log"),
+		ConfluenceURL:       "file:///tmp/reset-guide",
+		FailureThreshold:    3,
+		WindowMinutes:       15,
+		CooldownMinutes:     60,
+		PollIntervalSeconds: 5,
+	}
+
+	err := cfg.validate()
+	if err == nil || !strings.Contains(err.Error(), "http or https") {
+		t.Fatalf("expected URL scheme validation error, got %v", err)
 	}
 }

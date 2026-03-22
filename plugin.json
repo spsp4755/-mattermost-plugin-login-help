@@ -2,10 +2,10 @@
   "id": "com.mattermost.login-help-mailer",
   "name": "Login Help Mailer",
   "description": "Watches Mattermost audit logs for repeated login failures and emails users a Confluence password reset guide.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "min_server_version": "9.0.0",
-  "homepage_url": "https://example.internal/mattermost/plugins/login-help-mailer",
-  "support_url": "https://example.internal/mattermost/plugins/login-help-mailer/support",
+  "homepage_url": "https://github.com/spsp4755/-mattermost-plugin-login-help",
+  "support_url": "https://github.com/spsp4755/-mattermost-plugin-login-help/issues",
   "icon_path": "assets/icon.svg",
   "server": {
     "executables": {

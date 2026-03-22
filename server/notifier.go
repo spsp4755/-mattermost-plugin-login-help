@@ -14,11 +14,11 @@ var helpEmailTemplate = template.Must(template.New("help_email").Parse(`
 <html>
   <body style="font-family: Arial, sans-serif; line-height: 1.5; color: #1f2933;">
     <p>Repeated Mattermost login failures were detected for your account.</p>
-    <p>Mattermost 로그인 실패가 여러 차례 감지되었습니다.</p>
     <p>Please use the internal password reset guide below.</p>
     <p><a href="{{.ConfluenceURL}}">{{.ConfluenceURL}}</a></p>
     <p>Matched failures: {{.AttemptCount}} within {{.WindowMinutes}} minutes.</p>
     <p>Detected at: {{.TriggeredAt}}</p>
+    <p>This message only provides internal recovery instructions. It does not change your password automatically.</p>
     {{if .IsTest}}
     <p>This is a test email sent by a Mattermost system administrator.</p>
     {{end}}

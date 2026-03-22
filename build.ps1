@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 
 $pluginId = 'com.mattermost.login-help-mailer'
-$version = '0.1.0'
+$version = '0.1.1'
 $workspaceRoot = Split-Path -Parent $PSScriptRoot
 $portableGo = Join-Path $workspaceRoot 'tools\\go\\bin\\go.exe'
 $goExe = if (Test-Path $portableGo) { $portableGo } else { 'go' }
@@ -49,7 +49,7 @@ try {
     Copy-Item -Path (Join-Path $PSScriptRoot 'assets\\icon.svg') -Destination $assetsDist
 
     $archivePath = Join-Path $distRoot "$pluginId-$version.tar.gz"
-    tar -czf $archivePath -C $distRoot $pluginId
+    & $goExe run ./build/package_plugin.go --source $pluginRoot --output $archivePath
     if ($LASTEXITCODE -ne 0) {
         throw 'failed to create tar.gz bundle'
     }

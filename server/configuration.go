@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"net/url"
+	"path/filepath"
 	"strings"
 )
 
@@ -58,8 +60,25 @@ func (c *configuration) validate() error {
 		return fmt.Errorf("AuditLogPath is required")
 	}
 
+	if !filepath.IsAbs(strings.TrimSpace(c.AuditLogPath)) {
+		return fmt.Errorf("AuditLogPath must be an absolute path")
+	}
+
 	if strings.TrimSpace(c.ConfluenceURL) == "" {
 		return fmt.Errorf("ConfluenceURL is required")
+	}
+
+	parsedURL, err := url.Parse(strings.TrimSpace(c.ConfluenceURL))
+	if err != nil {
+		return fmt.Errorf("ConfluenceURL is invalid: %w", err)
+	}
+
+	if parsedURL.Scheme != "http" && parsedURL.Scheme != "https" {
+		return fmt.Errorf("ConfluenceURL must use http or https")
+	}
+
+	if strings.TrimSpace(parsedURL.Host) == "" {
+		return fmt.Errorf("ConfluenceURL must include a host")
 	}
 
 	if c.FailureThreshold < 1 {
