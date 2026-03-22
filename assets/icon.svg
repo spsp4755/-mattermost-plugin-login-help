@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title>Login Help Mailer</title>
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="#0059b3"/>
+  <path d="M32 42h64v44H32z" fill="#ffffff" opacity="0.95"/>
+  <path d="M32 42l32 26 32-26" fill="none" stroke="#0059b3" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="96" cy="96" r="18" fill="#ffd166"/>
+  <path d="M96 88v10" fill="none" stroke="#7a4b00" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="96" cy="104" r="3.5" fill="#7a4b00"/>
+</svg>

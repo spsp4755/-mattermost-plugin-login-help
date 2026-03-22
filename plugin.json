@@ -1,0 +1,102 @@
+{
+  "id": "com.mattermost.login-help-mailer",
+  "name": "Login Help Mailer",
+  "description": "Watches Mattermost audit logs for repeated login failures and emails users a Confluence password reset guide.",
+  "version": "0.1.0",
+  "min_server_version": "9.0.0",
+  "homepage_url": "https://example.internal/mattermost/plugins/login-help-mailer",
+  "support_url": "https://example.internal/mattermost/plugins/login-help-mailer/support",
+  "icon_path": "assets/icon.svg",
+  "server": {
+    "executables": {
+      "linux-amd64": "server/dist/plugin-linux-amd64",
+      "linux-arm64": "server/dist/plugin-linux-arm64",
+      "darwin-amd64": "server/dist/plugin-darwin-amd64",
+      "darwin-arm64": "server/dist/plugin-darwin-arm64",
+      "windows-amd64": "server/dist/plugin-windows-amd64.exe"
+    }
+  },
+  "settings_schema": {
+    "header": "Repeated login failures can trigger an automatic email that points users to your Confluence password reset guide.",
+    "footer": "Audit logging must be enabled in JSON format, and the plugin process must be able to read the configured audit log file.",
+    "settings": [
+      {
+        "key": "Enabled",
+        "display_name": "Enable Login Help Mailer",
+        "type": "bool",
+        "help_text": "Turn the watcher on or off without uninstalling the plugin.",
+        "default": true
+      },
+      {
+        "key": "AuditLogPath",
+        "display_name": "Audit Log Path",
+        "type": "text",
+        "help_text": "Absolute path to the Mattermost JSON audit log file, for example /var/log/mattermost_audit.log.",
+        "default": "/var/log/mattermost_audit.log"
+      },
+      {
+        "key": "FailureThreshold",
+        "display_name": "Failure Threshold",
+        "type": "number",
+        "help_text": "Send the help email after this many failed login attempts inside the configured window.",
+        "default": 3
+      },
+      {
+        "key": "WindowMinutes",
+        "display_name": "Failure Window (Minutes)",
+        "type": "number",
+        "help_text": "Only failed login attempts inside this rolling window are counted.",
+        "default": 15
+      },
+      {
+        "key": "CooldownMinutes",
+        "display_name": "Email Cooldown (Minutes)",
+        "type": "number",
+        "help_text": "Prevents repeated help emails from being sent too often to the same user.",
+        "default": 60
+      },
+      {
+        "key": "ConfluenceURL",
+        "display_name": "Confluence Guide URL",
+        "type": "text",
+        "help_text": "Internal Confluence page that explains how users should reset or recover their password.",
+        "default": "https://confluence.example.internal/display/IT/Reset+Mattermost+Password"
+      },
+      {
+        "key": "EmailSubject",
+        "display_name": "Email Subject",
+        "type": "text",
+        "help_text": "Subject line for the help email sent to users.",
+        "default": "[Mattermost] Password reset guide"
+      },
+      {
+        "key": "PollIntervalSeconds",
+        "display_name": "Poll Interval (Seconds)",
+        "type": "number",
+        "help_text": "How often the plugin checks the audit log for new events.",
+        "default": 5
+      },
+      {
+        "key": "StartFromEnd",
+        "display_name": "Start From End",
+        "type": "bool",
+        "help_text": "When enabled, the first startup begins at the end of the audit log to avoid replaying historical failures.",
+        "default": true
+      },
+      {
+        "key": "ResetOnSuccess",
+        "display_name": "Reset Counter On Successful Login",
+        "type": "bool",
+        "help_text": "Clear stored failed-attempt counters when the user later logs in successfully.",
+        "default": true
+      },
+      {
+        "key": "OnlyLocalAccounts",
+        "display_name": "Only Email Password Accounts",
+        "type": "bool",
+        "help_text": "Ignore LDAP, SAML, OIDC, and other non-local auth services. Recommended when the guide only applies to Mattermost-managed passwords.",
+        "default": true
+      }
+    ]
+  }
+}
